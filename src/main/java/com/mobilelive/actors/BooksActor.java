@@ -71,9 +71,8 @@ public class BooksActor extends AbstractActor{
 
     private FI.UnitApply<BookMessages.UpdateBookMessage> handleUpdateBook() {
         return updateBookMessage -> {
-            bookService.updateBook( updateBookMessage.getBook());
-            sender().tell(new BookMessages.ActionPerformed(
-                    String.format("Book %s updated.", updateBookMessage.getBook().getName())), getSelf());
+            sender().tell(
+                    new BookMessages.ActionPerformed(bookService.updateBook(updateBookMessage.getBook())), getSelf());
         };
     }
 }
