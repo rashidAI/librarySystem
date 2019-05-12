@@ -88,14 +88,35 @@ public class BookService {
         }
     }
 
-    public void updateBook (Book book){
-        books = books.stream().map(bookObj -> {
-            if(bookObj.getId() == book.getId()){
-                return book;
-            }
-            return bookObj;
-        }).collect( Collectors.toList());
-        Utils.updateBookFile(books);
+    public String updateBook (Book book){
+
+        Optional<Book> bookFind = books.stream().filter( innerUser -> innerUser.getId()
+                .equals(book.getId()))
+                .findFirst();
+
+        if (bookFind.isPresent()){
+            books = books.stream().map(bookObj -> {
+                if(bookObj.getId() == book.getId()){
+
+                    Book updatebook = new Book( book.getId(),
+                            book.getCallno(),
+                            book.getName(),
+                            book.getAuthor(),
+                            book.getPublisher(),
+                            book.getQuantity(),
+                            bookObj.getIssuedNo());
+
+                    return updatebook;
+                }
+                return bookObj;
+            }).collect( Collectors.toList());
+            Utils.updateBookFile(books);
+            return "Book is updated";
+        } else {
+            return "Book is not found";
+        }
+
+
     }
 
     public String issueBook(Student student){
