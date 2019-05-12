@@ -40,9 +40,9 @@ public class BookService {
 
         if(!bookFind.isPresent()){
             if (books.size() > 0 ){
-                Book employee = (Book) books.stream()
+                Book bookInt = (Book) books.stream()
                         .max(Comparator.comparing(Book::getId)).get();
-                currentBookId = employee.getId();
+                currentBookId = bookInt.getId();
                 newBook = new Book(currentBookId+1,
                         book.getCallno(),
                         book.getName(),
@@ -70,10 +70,22 @@ public class BookService {
                 .findFirst();
     }
 
-    public boolean deleteBook(Long id){
-        books.removeIf(book -> book.getId().equals(id));
-        Utils.updateBookFile(books);
-        return true;
+    public String deleteBook(Long id){
+        Optional<Book> bookFind = books.stream()
+                .filter(book -> book.getId()
+                        .equals(id))
+                .findFirst();
+        if(bookFind.isPresent()){
+            if(bookFind.get().getIssuedNo() == 0){
+                books.removeIf(book -> book.getId().equals(id));
+                Utils.updateBookFile(books);
+                return "Book is deleted";
+            } else {
+                return "Book can not be delete as it issued to student";
+            }
+        } else {
+            return "Book did not find to delete.";
+        }
     }
 
     public void updateBook (Book book){
@@ -163,7 +175,7 @@ public class BookService {
             return "Student Record updated";
         } else if(isRecodeUpdate[1]){
             Utils.updateBookFile(books );
-            return "Student Record updated";
+            return "Book Record updated";
         }
         return "Book return fails and record is not updated";
     }

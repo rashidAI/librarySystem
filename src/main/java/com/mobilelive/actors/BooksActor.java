@@ -4,10 +4,7 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.japi.pf.FI;
 import com.mobilelive.messages.BookMessages;
-import com.mobilelive.messages.UserMessages;
 import com.mobilelive.service.BookService;
-import com.mobilelive.service.StudentService;
-import com.mobilelive.service.UserService;
 
 public class BooksActor extends AbstractActor{
 
@@ -31,10 +28,9 @@ public class BooksActor extends AbstractActor{
     }
 
     private FI.UnitApply<BookMessages.AddBookMessage> handleAddBook() {
-        return createUserMessage -> {
-            bookService.addBook(createUserMessage.getBook());
-            sender()
-                    .tell(new BookMessages.ActionPerformed(bookService.addBook(createUserMessage.getBook())), getSelf());
+        return createBookMessage -> {
+            sender().tell(
+                    new BookMessages.ActionPerformed(bookService.addBook(createBookMessage.getBook())), getSelf());
         };
     }
 
@@ -52,27 +48,32 @@ public class BooksActor extends AbstractActor{
 
     private FI.UnitApply<BookMessages.IssueBookMessage> handleIssueBooks() {
         return issueBookMessage -> {
-            sender().tell(new BookMessages.ActionPerformed(bookService.issueBook(issueBookMessage.getStudentToIssueBook())), getSelf());
+            sender().tell(
+                    new BookMessages.ActionPerformed(
+                            bookService.issueBook(issueBookMessage.getStudentToIssueBook())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.ReturnBookMessage> handleReturnBooks() {
         return issueBookMessage -> {
-            sender().tell(new BookMessages.ActionPerformed(bookService.returnBook( issueBookMessage.getStudentToReturnBook())), getSelf());
+            sender().tell(
+                    new BookMessages.ActionPerformed(
+                            bookService.returnBook(issueBookMessage.getStudentToReturnBook())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.DeleteBookMessage> handleDeleteBook() {
         return deleteBookMessage -> {
-            sender().tell(bookService.deleteBook(deleteBookMessage.getBookId()), getSelf());
+            sender().tell(
+                    new BookMessages.ActionPerformed(bookService.deleteBook(deleteBookMessage.getBookId())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.UpdateBookMessage> handleUpdateBook() {
         return updateBookMessage -> {
             bookService.updateBook( updateBookMessage.getBook());
-            sender().tell(new UserMessages.ActionPerformed(
-                    String.format("User %s updated.", updateBookMessage.getBook().getName())), getSelf());
+            sender().tell(new BookMessages.ActionPerformed(
+                    String.format("Book %s updated.", updateBookMessage.getBook().getName())), getSelf());
         };
     }
 }

@@ -28,19 +28,15 @@ public class UserActor extends AbstractActor {
 
     private FI.UnitApply<UserMessages.UpdateUserMessage> handleUpdateUser() {
         return createUserMessage -> {
-            userService.updateLibrarian(createUserMessage.getUser());
-            sender()
-                    .tell(new UserMessages.ActionPerformed(
-                            String.format("User %s updated.", createUserMessage.getUser().getName())), getSelf());
+            sender().tell(
+                    new UserMessages.ActionPerformed(userService.updateLibrarian(createUserMessage.getUser())), getSelf());
         };
     }
 
     private FI.UnitApply<UserMessages.CreateUserMessage> handleCreateUser() {
         return createUserMessage -> {
-            userService.createLibrarian(createUserMessage.getUser());
-            sender()
-                    .tell(new UserMessages.ActionPerformed(
-                            String.format("User %s created.", createUserMessage.getUser().getName())), getSelf());
+            sender().tell(
+                    new UserMessages.ActionPerformed(userService.createLibrarian(createUserMessage.getUser())), getSelf());
         };
     }
 

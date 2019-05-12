@@ -104,7 +104,12 @@ public class LibarayServer extends HttpApp {
                     .thenApply(obj -> (UserMessages.ActionPerformed) obj);
 
             return onSuccess(() -> userCreated, performed -> {
-                return complete(StatusCodes.RESET_CONTENT, performed, Jackson.marshaller());
+                if (performed.equals( "User is updated" )){
+                    return complete(StatusCodes.RESET_CONTENT, performed, Jackson.marshaller());
+                } else {
+                    return complete(StatusCodes.BAD_REQUEST, performed, Jackson.marshaller());
+                }
+
             });
         })));
     }
@@ -130,7 +135,11 @@ public class LibarayServer extends HttpApp {
                     .thenApply(obj -> (UserMessages.ActionPerformed) obj);
 
             return onSuccess(() -> userCreated, performed -> {
-                return complete(StatusCodes.CREATED, performed, Jackson.marshaller());
+                if (performed.equals( "New User is added" )){
+                    return complete(StatusCodes.CREATED, performed, Jackson.marshaller());
+                } else {
+                    return complete(StatusCodes.BAD_REQUEST, performed, Jackson.marshaller());
+                }
             });
         })));
     }
@@ -210,14 +219,14 @@ public class LibarayServer extends HttpApp {
 
     private Route deleteBook(Long id) {
         return delete(() -> {
-            CompletionStage<Boolean> book = PatternsCS.ask(userActor, new BookMessages.DeleteBookMessage(id), timeout)
-                    .thenApply(obj -> (Boolean) obj);
+            CompletionStage<BookMessages.ActionPerformed> book = PatternsCS.ask(bookActor, new BookMessages.DeleteBookMessage(id), timeout)
+                    .thenApply(obj -> (BookMessages.ActionPerformed) obj);
 
             return onSuccess(() -> book, performed -> {
-                if (performed == true)
+                if (performed.equals( "Book is deleted" ))
                     return complete( StatusCodes.OK, performed, Jackson.marshaller());
                 else
-                    return complete(StatusCodes.NOT_FOUND);
+                    return complete(StatusCodes.BAD_REQUEST, performed, Jackson.marshaller());
             });
         });
     }

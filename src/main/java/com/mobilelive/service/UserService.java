@@ -1,11 +1,13 @@
 package com.mobilelive.service;
 
 import com.mobilelive.helper.Utils;
+import com.mobilelive.model.Book;
 import com.mobilelive.model.User;
 
 import javax.rmi.CORBA.Util;
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,9 +30,32 @@ public class UserService {
             .findFirst();
     }
 
-    public void createLibrarian(User user) {
-        users.add(user);
-        Utils.updateUserFile(users );
+    public String createLibrarian(User user) {
+        Long currentUserId = 0L;
+        User newUser = null;
+        Optional<User> userFind = users.stream().filter(innerUser ->
+                innerUser.getEmail().equals( user.getEmail() )
+        ).findFirst();
+
+        if(!userFind.isPresent()){
+            if (users.size() > 0 ){
+                User userInt = (User) users.stream()
+                        .max( Comparator.comparing(User::getId)).get();
+                currentUserId = userInt.getId();
+                newUser = new User(currentUserId+1,
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getMobileNumber(),
+                        "Librarian"
+                        );
+            }
+            users.add(user);
+            Utils.updateUserFile(users );
+            return "New User is added";
+        } else {
+            return "User 'email: "+user.getEmail()+"' is already assign.";
+        }
     }
 
     public List<User> getUsers(){
@@ -40,14 +65,23 @@ public class UserService {
         return updatedUser;
     }
 
-    public void updateLibrarian(User user){
-        users = users.stream().map(userObj -> {
-            if(userObj.getId() == user.getId()){
-                return user;
-            }
-            return userObj;
-        }).collect( Collectors.toList());
-        Utils.updateUserFile(users);
+    public String updateLibrarian(User user){
+        Optional<User> userFind = users.stream().filter( innerUser -> innerUser.getId()
+                .equals(user.getId()))
+                .findFirst();
+
+        if(userFind.isPresent()){
+            users = users.stream().map(userObj -> {
+                if(userObj.getId() == user.getId()){
+                    return user;
+                }
+                return userObj;
+            }).collect( Collectors.toList());
+            Utils.updateUserFile(users);
+            return "User is updated";
+        }  else {
+            return "User is not found";
+        }
     }
 
     public boolean deleteUser(Long id){
