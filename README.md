@@ -19,7 +19,7 @@ clone this project
 load it in intellij 
 update maven libraries jar
 
-install node . 
+install node
     for MAC "https://www.webucator.com/how-to/how-install-nodejs-on-mac.cfm"
 
 install pm2 
@@ -38,3 +38,8 @@ now can add users in the system.
 
 
 Run LibraryServer.java file 
+
+
+Note: 
+HTML files are in web folder at root level
+postman collection is also at root level to test API with postman
