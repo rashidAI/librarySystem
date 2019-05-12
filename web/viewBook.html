@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>The Public-Library a Educational Category Flat Responsive web template | Home :: w3layouts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='//fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!--slider-->
+<link href="css/slider.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+
+    var request = new XMLHttpRequest()
+
+    request.open('GET', 'http://localhost:8080/booksUpdateList', true)
+    request.onload = function() {
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+        console.log(data)
+
+        if (request.status >= 200 && request.status < 400) {
+            // data.forEach(librarianList => {
+            console.log(data)
+
+            $('#tableStyle').bootstrapTable({
+                //Assigning data to table
+                data
+            });
+        } else {
+            console.log('error')
+        }
+    }
+
+    request.send()
+</script>
+</head>
+<body>
+<div class="btm_border">
+<div class="h_bg">
+<div class="wrap">
+	<div class="header">
+        <div class="logo">
+            <h1><a href="librarianHome.html"><img src="images/logo.png" alt=""></a></h1>
+        </div>	
+		<div class="clear"></div>
+    </div>
+    <div class='h_btm'>
+		<div class='cssmenu'>
+			<ul>
+			    <li><a href='librarianHome.html'><span>Home</span></a></li>
+			    <li><a href='addBookForm.html'><span>Add Book</span></a></li>
+                <li class='active'><a href='viewBook.html'><span>View Book</span></a></li>
+                <li><a href='issueBookForm.html'><span>Issue Book</span></a></li>
+                <li><a href='viewIssueBook.html'><span>View Issued Book</span></a></li>
+                <li><a href='returnBook.html'><span>Return Book</span></a></li>
+				<li><a href='login.html'><span>Logout</span></a></li>
+			 	<div class="clear"></div>
+			 </ul>
+        </div>
+    </div>
+    <div class="clear"></div>	
+</div>
+</div>
+</div>
+
+<!--main-->
+<div class="main_bg">
+<div class="wrap">
+<div class="main">
+	<div class="contact">
+		<div class="section group">					
+            <div class="col span_2_of_4">
+                <div class="contact-form ">
+                <h2 class="style">Add Book Form</h2>
+                </div>
+            </div>
+            <table id="tableStyle" >
+                    <thead>
+                        <tr>
+                            <th data-field="id">Id</th>
+                            <th data-field="callno">Callno</th>
+                            <th data-field="author">Author</th>
+                            <th data-field="name">Name</th>
+                            <th data-field="publisher">Publisher</th>
+                            <th data-field="quantity">Quantity</th>
+                            <th data-field="issuedNo">IssuedNo</th>
+                            <th> Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                </table> 
+            </div>		
+  			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+
+<!--footer1-->
+<div class="ftr-bg">
+	<div class="wrap">
+		<div class="footer">
+		<div class="copy">
+			<p class="w3-link">© 2013 Public Neo-Library. All Rights Reserved &nbsp; <a href="#"> Neo Library System</a></p>
+		</div>
+		<div class="clear"></div>	
+	</div>
+	</div>
+</div>
+</body>
+</html>

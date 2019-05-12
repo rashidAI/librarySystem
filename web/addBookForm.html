@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>The Public-Library a Educational Category Flat Responsive web template | Home :: w3layouts</title>
+<meta http-equiv="Content-Type" content="application/json; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='//fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!--slider-->
+<link href="css/slider.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.nivo.slider.js"></script>
+<script type="text/javascript">
+    function addBook() {
+        var addBook = {
+            // "id": 3,
+            "callno": document.getElementById("addBook").elements.namedItem("callno").value,
+            "name": document.getElementById("addBook").elements.namedItem("name").value,
+            "author": document.getElementById("addBook").elements.namedItem("author").value,
+            "publisher": document.getElementById("addBook").elements.namedItem("publisher").value,
+            "quantity": document.getElementById("addBook").elements.namedItem("quantity").value,
+            "issuedNo": 0,
+
+        }
+$.ajax({
+    type: 'POST',
+    url: 'http://localhost:8080/booksUpdateList',
+    async: false,
+    data: JSON.stringify(addBook),
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    complete: function (data) {
+        if (data.status == 201){
+            $(document.getElementById("responseMessage")).text("Book Saved Successfully");
+            $("#addBook").get(0).reset()
+        } else {
+            var response = JSON.parse(data.responseText);
+            $('#error').html(response.description);
+        }
+        
+        console.log(data.responseText);
+        // console.log(data)
+        wait = false;
+    },
+    
+});
+        
+    }
+</script>
+
+
+</head>
+<body>
+<div class="btm_border">
+<div class="h_bg">
+<div class="wrap">
+	<div class="header">
+        <div class="logo">
+            <h1><a href="librarianHome.html"><img src="images/logo.png" alt=""></a></h1>
+        </div>
+		<div class="clear"></div>
+    </div>
+    <div class='h_btm'>
+		<div class='cssmenu'>
+			<ul>
+			    <li><a href='librarianHome.html'><span>Home</span></a></li>
+			    <li class='active'><a href='addBookForm.html'><span>Add Book</span></a></li>
+                <li><a href='viewBook.html'><span>View Book</span></a></li>
+                <li><a href='issueBookForm.html'><span>Issue Book</span></a></li>
+                <li><a href='viewIssueBook.html'><span>View Issued Book</span></a></li>
+                <li><a href='returnBook.html'><span>Return Book</span></a></li>
+				<li><a href='login.html'><span>Logout</span></a></li>
+			 	<div class="clear"></div>
+			 </ul>
+        </div>
+    </div>
+    <div class="clear"></div>	
+</div>
+</div>
+</div>
+
+<!--main-->
+<div class="main_bg">
+<div class="wrap">
+<div class="main">
+	<div class="contact">
+		<div class="section group">					
+            <div class="col span_2_of_4">
+                <div class="contact-form">
+                <div id="responseMessage"></div>
+                <h2 class="style">Add Book Form</h2>
+                
+                        <form id="addBook">
+                        <div>
+                            <span><label>Callno</label></span>
+                            <span><input name="callno" type="text" class="textbox"></span>
+                        </div>
+                        <div>
+                            <span><label>Name</label></span>
+                            <span><input name="name" type="text" class="textbox"></span>
+                        </div>
+                        <div>
+                            <span><label>Author</label></span>
+                            <span><input name="author" type="text" class="textbox"></span>
+                        </div>
+                        <div>
+                            <span><label>Publisher</label></span>
+                            <span><input name="publisher" type="text" class="textbox"></span>
+                        </div>
+                        <div>
+                            <span><label>Quantity</label></span>
+                            <span><input name="quantity" type="text" class="textbox"></span>
+                        </div>
+                        <div>
+                            <span><input type="button"  onclick="addBook()" value="Save Book"></span>
+                        </div>
+                    </form>
+                    <div id="error" class="error"></div>
+                </div>
+                </div>
+            </div>		
+  			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!--footer1-->
+<div class="ftr-bg">
+	<div class="wrap">
+		<div class="footer">
+		<div class="copy">
+			<p class="w3-link">© 2013 Public Neo-Library. All Rights Reserved &nbsp; <a href="#"> Neo Library System</a></p>
+		</div>
+		<div class="clear"></div>	
+	</div>
+	</div>
+</div>
+</body>
+</html>
