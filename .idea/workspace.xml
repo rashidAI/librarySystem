@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9daf1d28-c15c-4198-9084-02cdaefd1d75" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/mobilelive/service/BookService.java" afterPath="$PROJECT_DIR$/src/main/java/com/mobilelive/service/BookService.java" />
-    </list>
+    <list default="true" id="9daf1d28-c15c-4198-9084-02cdaefd1d75" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/project/project/target/" />
     <ignored path="$PROJECT_DIR$/project/target/" />
@@ -475,12 +473,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1558520786134</updated>
-      <workItem from="1558520791219" duration="2769000" />
+      <workItem from="1558520791219" duration="2890000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2769000" />
+    <option name="totallyTimeSpent" value="2890000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="37" y="30" width="1400" height="787" extended-state="0" />
