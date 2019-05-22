@@ -270,11 +270,11 @@ public class LibarayServer extends HttpApp {
 
     private Route returnBook() {
         return route(put(() ->
-            entity( Jackson.unmarshaller(Student.class), studentToIssueBook -> {
-                CompletionStage<BookMessages.ActionPerformed> bookIssued = PatternsCS.ask(bookActor, new BookMessages.ReturnBookMessage(studentToIssueBook), timeout)
+            entity( Jackson.unmarshaller(Student.class), studentToReturnBook -> {
+                CompletionStage<BookMessages.ActionPerformed> bookReturn = PatternsCS.ask(bookActor, new BookMessages.ReturnBookMessage(studentToReturnBook), timeout)
                         .thenApply(obj -> (BookMessages.ActionPerformed) obj);
 
-                return onSuccess(() -> bookIssued, performed -> {
+                return onSuccess(() -> bookReturn, performed -> {
                     return complete(StatusCodes.CREATED, performed, Jackson.marshaller());
                 });
             })));

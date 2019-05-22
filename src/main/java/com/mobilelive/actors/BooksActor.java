@@ -29,8 +29,8 @@ public class BooksActor extends AbstractActor{
 
     private FI.UnitApply<BookMessages.AddBookMessage> handleAddBook() {
         return createBookMessage -> {
-            sender().tell(
-                    new BookMessages.ActionPerformed(bookService.addBook(createBookMessage.getBook())), getSelf());
+            sender().tell(new BookMessages.ActionPerformed(
+                    bookService.addBook(createBookMessage.getBook())), getSelf());
         };
     }
 
@@ -48,31 +48,29 @@ public class BooksActor extends AbstractActor{
 
     private FI.UnitApply<BookMessages.IssueBookMessage> handleIssueBooks() {
         return issueBookMessage -> {
-            sender().tell(
-                    new BookMessages.ActionPerformed(
+            sender().tell(new BookMessages.ActionPerformed(
                             bookService.issueBook(issueBookMessage.getStudentToIssueBook())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.ReturnBookMessage> handleReturnBooks() {
-        return issueBookMessage -> {
-            sender().tell(
-                    new BookMessages.ActionPerformed(
-                            bookService.returnBook(issueBookMessage.getStudentToReturnBook())), getSelf());
+        return returnBookMessage -> {
+            sender().tell(new BookMessages.ActionPerformed(
+                            bookService.returnBook(returnBookMessage.getStudentToReturnBook())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.DeleteBookMessage> handleDeleteBook() {
         return deleteBookMessage -> {
-            sender().tell(
-                    new BookMessages.ActionPerformed(bookService.deleteBook(deleteBookMessage.getBookId())), getSelf());
+            sender().tell(new BookMessages.ActionPerformed(
+                    bookService.deleteBook(deleteBookMessage.getBookId())), getSelf());
         };
     }
 
     private FI.UnitApply<BookMessages.UpdateBookMessage> handleUpdateBook() {
         return updateBookMessage -> {
-            sender().tell(
-                    new BookMessages.ActionPerformed(bookService.updateBook(updateBookMessage.getBook())), getSelf());
+            sender().tell(new BookMessages.ActionPerformed(
+                    bookService.updateBook(updateBookMessage.getBook())), getSelf());
         };
     }
 }

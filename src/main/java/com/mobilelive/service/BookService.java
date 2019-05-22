@@ -156,8 +156,8 @@ public class BookService {
         boolean isRecodeUpdate[] = new boolean[] {true, true, false};
         studentService.setStudents( studentService.getStudents().stream()
             .map(studentObj -> {
-                if(studentObj.getId().equals(student.getId()) &&
-                studentObj.getCallno() == student.getCallno()) {
+                if(studentObj.getId() == student.getId() &&
+                studentObj.getCallno().equals( student.getCallno())) {
                     studentObj = new Student(studentObj.getId(),
                             studentObj.getCallno(),
                             studentObj.getStudentName(),
@@ -175,15 +175,15 @@ public class BookService {
                     if(book.getCallno()
                             .equals(student.getCallno()
                             )){
+                        int issuedBooks = book.getIssuedNo() > 1 ? book.getIssuedNo()-1 : 0;
                         book = new Book(book.getId(),
                                 book.getCallno(),
                                 book.getName(),
                                 book.getAuthor(),
                                 book.getPublisher(),
                                 book.getQuantity(),
-                                book.getIssuedNo()-1);
+                                issuedBooks);
                         isRecodeUpdate[1] = true;
-                        return book;
                     }
                     return book;
                 }).collect(Collectors.toList());
