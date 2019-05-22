@@ -1,4 +1,4 @@
-# librarySystem
+# Library System
 
 This is simple Library System Application 
 
