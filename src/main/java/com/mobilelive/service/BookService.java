@@ -197,8 +197,9 @@ public class BookService {
         } else if(isRecodeUpdate[1]){
             Utils.updateBookFile(books );
             return "Book Record updated";
+        } else {
+            return "Book return fails and record is not updated";
         }
-        return "Book return fails and record is not updated";
     }
 
 }
